@@ -1,0 +1,12 @@
+[Unit]
+Description=Set Tesla V100 power limit to 170 W
+After=systemd-modules-load.service
+Before=tesla-fan-control.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/nvidia-smi -i 0 -pl 170
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

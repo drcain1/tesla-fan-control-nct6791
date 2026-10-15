@@ -1,0 +1,17 @@
+[Unit]
+Description=Tesla V100 external cooling fan controller
+After=systemd-modules-load.service
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/python3 /usr/local/bin/tesla_fan_control.py --channel 1 --apply
+ExecStopPost=/usr/bin/python3 /usr/local/bin/tesla_fan_control.py --channel 1 --failsafe
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target
